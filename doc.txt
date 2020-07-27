@@ -1,0 +1,6 @@
+1. Worker create and approve-disapprove (TODO) (HIGH)
+2. CRUD on store (TODO)
+3. CRUD on scheme (TODO) (HIGH)
+4. CRUD on product (WIP) (HIGH)
+5. Activities READ, APPROVE, DISAPPROVE and PROCESSING (TODO) (HIGH)
+6. Reward section for reward on the basis of worker's performance and points (TO DISCUSS) (HIGH)

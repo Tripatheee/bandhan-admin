@@ -1,0 +1,9 @@
+select::-ms-expand {
+    display: none;
+}
+
+.product-image {
+    width: 200px;
+    height: 200px;
+    display: flex;
+}

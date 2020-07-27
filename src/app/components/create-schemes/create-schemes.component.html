@@ -1,0 +1,158 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+    style="min-height: 70px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+    <!-- Mask -->
+    <span class="mask bg-gradient-danger opacity-8"></span>
+</div>
+<div class="container-fluid mt--4">
+    <div class="row">
+        <div class="col-xl-12 order-xl-1">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">Create Schemes</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <form class="form-signin" [formGroup]="schemeForm">
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-username">Name</label>
+                                        <input type="text" id="input-username" formControlName="name" required
+                                            class="form-control form-control-alternative" placeholder="Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email">Description</label>
+                                        <input type="text" formControlName="description" id="input-email"
+                                            placeholder="Enter Description" required
+                                            class="form-control form-control-alternative">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email">Default Points</label>
+                                        <input type="text" formControlName="default_points" id="input-email"
+                                            placeholder="Enter Points" required
+                                            class="form-control form-control-alternative">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email">Bonus_Points</label>
+                                        <input type="text" formControlName="bonus_points" id="input-email"
+                                            placeholder="Enter Points" required
+                                            class="form-control form-control-alternative">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label " for="input-username">Bonus Start
+                                            Date</label>
+                                        <input type="date" formControlName="bonus_start_date" id="input-date"
+                                            placeholder="Enter Bonus Start Date" required
+                                            class="form-control form-control-alternative">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label " for="input-username">Bonus End
+                                            Date</label>
+                                        <input class="form-control form-control-alternative" type="date"
+                                            formControlName="bonus_end_date" data-date-inline-picker="false"
+                                            data-date-open-on-focus="true" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label " for="input-username">Scheme End
+                                            Date</label>
+                                        <input class="form-control form-control-alternative" type="date"
+                                            formControlName="scheme_end_date" data-date-inline-picker="false"
+                                            data-date-open-on-focus="true" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email">Product Volume</label>
+                                        <input type="text" formControlName="product_volume" id="input-email"
+                                            placeholder="Enter Description" required
+                                            class="form-control form-control-alternative">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-status">Product Category</label>
+                                        <select required placeholder="Select Product Category..."
+                                            formControlName="category" class="form-control form-control-alternative">
+                                            <option value="0" disabled selected> Select Product Category... </option>
+                                            <option *ngFor="let category of categoryList" [value]="category?.id">
+                                                {{category?.name}} </option>
+                                        </select>
+                                        <div *ngIf="f.category.touched &&  f.category.invalid"
+                                            class="alert alert-danger">
+                                            <div *ngIf="f.category.errors.required">Select Product Category</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-product-image">Product
+                                            Image</label>
+                                        <input type="file" id="input-product-image" required
+                                            class="form-control form-control-alternative"
+                                            accept="image/png, image/jpeg, image/jpg"
+                                            (change)="selectImage($event.target.files)" placeholder="Product image">
+                                        <!-- <img [src]="imageSrc" width="400" height="400"> -->
+                                        <!-- <div *ngIf="f.images.touched &&  f.images.invalid" class="alert alert-danger">
+                                      <div *ngIf="f.images.errors.required">Product image is required.</div>
+                                    </div> -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <button (click)="createScheme()" class="btn btn-primary my-4">Create
+                                            Schemes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

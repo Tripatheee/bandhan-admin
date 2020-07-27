@@ -1,0 +1,94 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">List Products</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">S.N.</th>
+                <th scope="col">Product Code (SKU)</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Created At</th>
+                <th scope="col">View</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let product of products | paginate: { id: 'productList', itemsPerPage: itemPerPage, currentPage: page, totalItems: totalProducts }; let i = index;">
+                  <th scope="row">
+                    {{ itemPerPage * (page - 1) + i + 1 }}
+                  </th>
+                <td>
+                  {{product.sku}}
+                </td>
+                <td>
+                  {{product.name}}
+                </td>
+                <td>
+                  {{product.categoryName}}
+                </td>
+                <td>
+                  {{product.created_at | date: 'dd/MM/yyyy hh:mm aa'}}
+                </td>
+                <td>
+                  <button class="view-icon-only-btn" (click)="viewProduct(product.id)"><i
+                      class="fas fa-eye"></i></button>
+                </td>
+                <!-- <td>
+                  <button class="edit-icon-only-btn"><i class="fas fa-edit"></i></button>
+                </td> -->
+                <td>
+                  <button class="delete-icon-only-btn" (click)="openDeleteProductModal(product.name, product.id)"><i
+                      class="fas fa-trash"></i></button>
+                </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="txt-align-right">
+          <pagination-controls id="productList" (pageChange)="selectPage($event)"></pagination-controls>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- The Modal -->
+  <div class="modal fade" role="dialog" id="productDelete">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4>Delete Product!</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="modalText">Are you sure you want to delete {{productName}}?</p>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button class="btn btn-outline-success" (click)="deleteProduct()">Yes</button>
+          <button class="btn btn-outline-danger" (click)="closeModal()">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
