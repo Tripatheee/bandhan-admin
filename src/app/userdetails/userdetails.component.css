@@ -142,9 +142,9 @@
     justify-content: center;
 }
 
-.modal-body {
+/* .modal-body {
     text-align: center;
-}
+} */
 
 .dropMenu {
     font-weight: 600;
@@ -154,10 +154,10 @@
     margin-top: 20px;
 }
 
-.modal-title {
+/* .modal-title {
     font-weight: bolder;
     font-size: larger;
-}
+} */
 
 .selectBox {
     width: 110%;

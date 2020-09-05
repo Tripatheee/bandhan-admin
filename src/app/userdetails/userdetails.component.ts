@@ -56,7 +56,11 @@ export class UserdetailsComponent implements OnInit {
   getStores() {
     // this.tostr.info("Loading...", "", { progressBar: true, progressAnimation: 'increasing', timeOut: 1000 });
     this.dataService.getStores().subscribe(res => {
-      this.stores = res.data;
+      if(res && res.data && res.data.data) {
+        this.stores = res.data.data;
+      } else {
+        alert("No stores found. Request you to go first add store and then you will be able to approve the worker.\nThanks.");
+      }
       console.log("this is the stores id -=-=-=-=-=-=", this.stores);
     })
   }
