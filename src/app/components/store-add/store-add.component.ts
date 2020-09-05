@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms"
 import { CommonService } from 'src/app/shared/common.service';
 import { StoreService } from 'src/app/shared/store.service';
 import { ToastrService } from 'ngx-toastr';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-store-add',
@@ -19,7 +20,8 @@ export class StoreAddComponent implements OnInit {
     public fb: FormBuilder,
     private commonService: CommonService,
     private storeService: StoreService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {
 
     this.storeForm = this.fb.group({
@@ -90,20 +92,18 @@ export class StoreAddComponent implements OnInit {
       (res: any) => {
         if (res.success) {
           this.toastr.success('Store has been successfully created');
+          this.viewStore(res.data.id);
         }
       }
     )
-    // this.dataService.addStore(this.storeForm.value).subscribe(res => {
+  }
 
-    //   if (res.success != "1") {
-    //     this.tostr.warning(res.message);
-    //   }
-    //   else {
-    //     this.tostr.success(res.message);
-    //     this.storeForm.reset();
-
-    //   }
-
-    // });
+  viewStore(storeID) {
+    let extras: NavigationExtras = {
+      queryParams: {
+        store: storeID
+      }
+    }
+    this.router.navigate(['store'], extras);
   }
 }

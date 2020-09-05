@@ -26,13 +26,13 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
     { path: 'add-user', component: UserProfileComponent },
     { path: 'list-users', component: UsersComponent },
-    { path: 'list-roles', component: RolesComponent },
+    // { path: 'list-roles', component: RolesComponent },
     { path: 'tables', component: TablesComponent },
     { path: 'icons', component: IconsComponent },
     { path: 'maps', component: MapsComponent },
     { path: 'add-store', component: StoreAddComponent },
     { path: 'list-stores', component: StoresComponent },
-    { path: 'edit-store', component: StoreEditComponent },
+    { path: 'store', component: StoreEditComponent },
 
     { path: 'add-product', component: ProductAddComponent },
     { path: 'list-products', component: ProductsComponent },
@@ -45,7 +45,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'site-setting', component: SiteSettingComponent },
     { path: 'create-schemes', component: CreateSchemesComponent },
     { path: 'list-schemes', component: ListSchemesComponent },
-    { path: 'edit-schemes/:id', component: EditSchemesComponent },
+    { path: 'edit-schemes', component: EditSchemesComponent },
     { path: 'userdetails/:id', component: UserdetailsComponent }
 
 ];

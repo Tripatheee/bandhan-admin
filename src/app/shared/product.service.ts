@@ -99,7 +99,7 @@ export class ProductService {
     ).toPromise()
       .catch(
         (err) => {
-          console.log('error in delete product api ====>>>>', err);
+          console.log('error in fetch product api ====>>>>', err);
           this.commonService.hideSpinner();
         }
       );

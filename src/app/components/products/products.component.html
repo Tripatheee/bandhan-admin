@@ -7,11 +7,10 @@
 </div>
 <!-- Page content -->
 <div class="container-fluid mt--7">
-
   <!-- Table -->
   <div class="row">
     <div class="col">
-      <div class="card shadow">
+      <div class="card shadow">        
         <div class="card-header border-0">
           <h3 class="mb-0">List Products</h3>
         </div>
@@ -29,11 +28,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                *ngFor="let product of products | paginate: { id: 'productList', itemsPerPage: itemPerPage, currentPage: page, totalItems: totalProducts }; let i = index;">
-                  <th scope="row">
-                    {{ itemPerPage * (page - 1) + i + 1 }}
-                  </th>
+              <tr [hidden]="products?.length">
+                <th colspan="7">
+                  <h3 class="text-danger text-center">No Products found</h3>
+                </th>
+              </tr>
+              <tr [hidden]="!products?.length" *ngFor="let product of products | paginate: { 
+                  id: 'productList',
+                  itemsPerPage: itemPerPage,
+                  currentPage: page,
+                  totalItems: totalProducts
+                }; let i = index;">
+                <th scope="row">
+                  {{ itemPerPage * (page - 1) + i + 1 }}
+                </th>
                 <td>
                   {{product.sku}}
                 </td>
@@ -50,22 +58,19 @@
                   <button class="view-icon-only-btn" (click)="viewProduct(product.id)"><i
                       class="fas fa-eye"></i></button>
                 </td>
-                <!-- <td>
-                  <button class="edit-icon-only-btn"><i class="fas fa-edit"></i></button>
-                </td> -->
                 <td>
                   <button class="delete-icon-only-btn" (click)="openDeleteProductModal(product.name, product.id)"><i
                       class="fas fa-trash"></i></button>
                 </td>
-                </tr>
+              </tr>
             </tbody>
           </table>
         </div>
-        <div class="txt-align-right">
+        <div class="txt-align-right" [hidden]="!products?.length">
           <pagination-controls id="productList" (pageChange)="selectPage($event)"></pagination-controls>
         </div>
       </div>
-      
+
     </div>
   </div>
 
@@ -79,7 +84,7 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <p class="modalText">Are you sure you want to delete {{productName}}?</p>
+          <p class="modalText">Are you sure you want to delete <strong>{{productName}}</strong>?</p>
         </div>
         <!-- Modal footer -->
         <div class="modal-footer">

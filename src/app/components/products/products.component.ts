@@ -55,6 +55,8 @@ export class ProductsComponent implements OnInit {
               this.moreProducts = res.data.meta.has_more_pages;
             }
           );          
+        } else {
+          this.products = [];
         }
       }
     );
@@ -99,7 +101,7 @@ export class ProductsComponent implements OnInit {
     let extras: NavigationExtras = {
 
       queryParams: {
-        product_id: productID
+        product: productID
       }
     }
     this.router.navigate(['product'], extras);

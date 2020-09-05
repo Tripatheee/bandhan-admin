@@ -10,7 +10,8 @@
         <div class="card-header bg-white border-0">
           <div class="row align-items-center">
             <div class="col-8">
-              <h3 class="mb-0">Edit Store</h3>
+              <h3 class="mb-0" [hidden]="!storeEdit">Edit Store</h3>
+              <h3 class="mb-0" [hidden]="storeEdit">Store</h3>
             </div>
             <!-- <div class="col-4 text-right">
               <a href="#!" class="btn btn-sm btn-primary">Settings</a>
@@ -18,16 +19,23 @@
           </div>
         </div>
         <div class="card-body">
-          <form  class="form-signin" [formGroup]="updatestoreForm" (ngSubmit)="updateStore()" >
+          <form class="form-signin" [formGroup]="updatestoreForm">
             <div class="pl-lg-4">
-              
+
               <div class="row">
                 <div class="col-lg-12">
-                  <div class="form-group">
+                  <div class="form-group image-wrap">
                     <label class="form-control-label" for="input-storeimage">Store Image</label>
-                    <input type="file" id="input-storeimage" formControlName="store_image" class="form-control form-control-alternative" placeholder="Name" required>
-                      <div *ngIf="f.store_image.touched && f.store_image.invalid" class="alert alert-danger">
-                        <div *ngIf="f.store_image.errors.required">Store image is required.</div>
+                    <input type="file" hidden id="input-storeimage" class="form-control form-control-alternative"
+                      placeholder="Name" required accept="image/jpg, image/jpeg, image/png">
+                    <div class="image-container">
+                      <img [src]="store?.images" [hidden]="!store?.images" class="img-rounded image" alt="Store Image">
+                      <img [src]="'assets/img/brand/argon-white.png'" [hidden]="store?.images" class="img-rounded image"
+                        alt="Store Image">
+                      <a (click)="editImage('input-storeimage')"><i class="fas fa-edit"></i> Change Image</a>
+                    </div>
+                    <div *ngIf="f.images.touched && f.images.invalid" class="alert alert-danger">
+                      <div *ngIf="f.images.errors.required">Store image is required.</div>
                     </div>
                   </div>
                 </div>
@@ -37,9 +45,11 @@
                 <div class="col-lg-12">
                   <div class="form-group">
                     <label class="form-control-label" for="input-store-name">Store Name</label>
-                    <input type="text" id="input-store-name" formControlName="store_name" class="form-control form-control-alternative" placeholder="Enter store name" required>
-                      <div *ngIf="f.store_name.touched && f.store_name.invalid" class="alert alert-danger">
-                        <div *ngIf="f.store_name.errors.required">Store name is required.</div>
+                    <input type="text" [hidden]="!storeEdit" id="input-store-name" formControlName="name"
+                      class="form-control form-control-alternative" placeholder="Enter store name" required>
+                    <label [hidden]="storeEdit" class="form-control form-control-alternative">{{store?.name}}</label>
+                    <div *ngIf="f.name.touched && f.name.invalid" class="alert alert-danger">
+                      <div *ngIf="f.name.errors.required">Store name is required.</div>
                     </div>
                   </div>
                 </div>
@@ -49,112 +59,178 @@
                 <div class="col-lg-12">
                   <div class="form-group">
                     <label class="form-control-label" for="input-first-name">Store manager name</label>
-                    <input formControlName="store_manager_name" type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="Store manager name" required>
-                      <div *ngIf="f.store_manager_name.touched && f.store_manager_name.invalid" class="alert alert-danger">
-                        <div *ngIf="f.store_manager_name.errors.required">Store manager name is required.</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                    <label class="form-control-label" for="input-first-name">Store Category</label>
-                    <select formControlName="store_category" placeholder="Select Store Category" class="form-control form-control-alternative" required>
-                      <option *ngFor="let category of categories" [value]="category.id"> {{category.name}} </option>
+                    <select formControlName="store_manager_id" [hidden]="!storeEdit" placeholder="Select Store Manager"
+                      class="form-control form-control-alternative" required>
+                      <option value="0" disabled selected> Select Store Manager... </option>
+                      <option *ngFor="let storeManager of storeManagers" [value]="storeManager.id">
+                        {{storeManager.name + '\t' + storeManager.id}} </option>
                     </select>
-                        <div *ngIf="f.store_category.touched && f.store_category.invalid" class="alert alert-danger">
-                        <div *ngIf="f.store_category.errors.required">Store Category is required.</div>
+                    <label class="form-control form-control-alternative"
+                      [hidden]="storeEdit">{{store?.storeManagerName}}</label>
+                    <div *ngIf="f.store_manager_id.touched && f.store_manager_id.invalid" class="alert alert-danger">
+                      <div *ngIf="f.store_manager_id.errors.required">Store manager name is required.</div>
                     </div>
-                    </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                    <label class="form-control-label" for="input-details">Details</label>
-                    <input formControlName="details" type="text" id="input-details" class="form-control form-control-alternative" placeholder="Enter details" required>
-                      <div *ngIf="f.details.touched && f.details.invalid" class="alert alert-danger">
-                          <div *ngIf="f.details.errors.required">Details is required.</div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                    <label class="form-control-label" for="input-address">Address</label>
-                    <input formControlName="address" type="text" id="input-address" class="form-control form-control-alternative" placeholder="Enter details" required>
-                      <div *ngIf="f.address.touched && f.address.invalid" class="alert alert-danger">
-                        <div *ngIf="f.address.errors.required">Address is required.</div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                    <label class="form-control-label" for="input-city">City</label>
-                    <input formControlName="city" type="text" id="input-city" class="form-control form-control-alternative" placeholder="Enter city" required>
-                        <div *ngIf="f.city.touched && f.city.invalid" class="alert alert-danger">
-                          <div *ngIf="f.city.errors.required">City is required.</div>
-                    </div>
-                    </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                    <label class="form-control-label" for="input-state">State</label>
-                    <input formControlName="state" type="text" id="input-state" class="form-control form-control-alternative" placeholder="Enter state" required>
-                        <div *ngIf="f.state.touched && f.state.invalid" class="alert alert-danger">
-                            <div *ngIf="f.state.errors.required">State is required.</div>
-                        </div>
-                    </div>
-                </div>
-              </div>
-
-              <div class="row">
-                  <div class="col-lg-12">
-                      <div class="form-group">
-                      <label class="form-control-label" for="input-country">Country</label>
-                      <input formControlName="country" type="text" id="input-country" class="form-control form-control-alternative" placeholder="Enter country" required>
-                        <div *ngIf="f.country.touched && f.country.invalid" class="alert alert-danger">
-                            <div *ngIf="f.country.errors.required">Country is required.</div>
-                      </div>
                   </div>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                    <label class="form-control-label" for="input-status">Store Status</label>
-                      <select formControlName="status" required class="form-control form-control-alternative" required>
-                          <option  [value]="1"> Active </option>
-                          <option  [value]="0"> Inactive </option>
-                      </select>
-                      <div *ngIf="f.status.touched && f.status.invalid" class="alert alert-danger">
-                          <div *ngIf="f.status.errors.required">Role is required.</div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              
               <div class="row">
                 <div class="col-lg-12">
                   <div class="form-group">
-                    <button type="submit"  type="submit" [disabled]="!updatestoreForm.valid" class="btn btn-primary my-4">Update Store</button>
+                    <label class="form-control-label" for="input-first-name">Store Category</label>
+                    <select formControlName="category_id" [hidden]="!storeEdit" placeholder="Select Store Category"
+                      class="form-control form-control-alternative" required>
+                      <option value="0" disabled selected> Select Store Category... </option>
+                      <option *ngFor="let category of categoryList" [value]="category.id"> {{category.name}} </option>
+                    </select>
+                    <label class="form-control form-control-alternative"
+                      [hidden]="storeEdit">{{store?.categoryName}}</label>
+                    <div *ngIf="f.category_id.touched && f.category_id.invalid" class="alert alert-danger">
+                      <div *ngIf="f.category_id.errors.required">Store Category is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-details">Details</label>
+                    <input formControlName="details" type="text" [hidden]="!storeEdit" id="input-details"
+                      class="form-control form-control-alternative" placeholder="Enter details" required>
+                    <label class="form-control form-control-alternative" [hidden]="storeEdit">{{store?.detail}}</label>
+                    <div *ngIf="f.details.touched && f.details.invalid" class="alert alert-danger">
+                      <div *ngIf="f.details.errors.required">Details is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Address</label>
+                    <input formControlName="address" type="text" [hidden]="!storeEdit" id="input-address"
+                      class="form-control form-control-alternative" placeholder="Enter details" required>
+                    <label class="form-control form-control-alternative" [hidden]="storeEdit">{{store?.address}}</label>
+                    <div *ngIf="f.address.touched && f.address.invalid" class="alert alert-danger">
+                      <div *ngIf="f.address.errors.required">Address is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-city">City</label>
+                    <input formControlName="city" type="text" id="input-city" [hidden]="!storeEdit"
+                      class="form-control form-control-alternative" placeholder="Enter city" required>
+                    <label class="form-control form-control-alternative" [hidden]="storeEdit">{{store?.city}}</label>
+                    <div *ngIf="f.city.touched && f.city.invalid" class="alert alert-danger">
+                      <div *ngIf="f.city.errors.required">City is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-state">State</label>
+                    <input formControlName="state" type="text" id="input-state" [hidden]="!storeEdit"
+                      class="form-control form-control-alternative" placeholder="Enter state" required>
+                    <label class="form-control form-control-alternative" [hidden]="storeEdit">{{store?.state}}</label>
+                    <div *ngIf="f.state.touched && f.state.invalid" class="alert alert-danger">
+                      <div *ngIf="f.state.errors.required">State is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Country</label>
+                    <input formControlName="country" type="text" id="input-country" [hidden]="!storeEdit"
+                      class="form-control form-control-alternative" placeholder="Enter country" required>
+                    <label class="form-control form-control-alternative" [hidden]="storeEdit">{{store?.country}}</label>
+                    <div *ngIf="f.country.touched && f.country.invalid" class="alert alert-danger">
+                      <div *ngIf="f.country.errors.required">Country is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Telephone</label>
+                    <input formControlName="telephone" type="text" id="input-telephone" [hidden]="!storeEdit"
+                      class="form-control form-control-alternative" placeholder="Enter telephone" required>
+                    <label class="form-control form-control-alternative"
+                      [hidden]="storeEdit">{{store?.telephone}}</label>
+                    <div *ngIf="f.telephone.touched && f.telephone.invalid" class="alert alert-danger">
+                      <div *ngIf="f.telephone.errors.required">Telephone is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-status">Store Status</label>
+                    <select formControlName="active" [hidden]="!storeEdit" required
+                      class="form-control form-control-alternative" required>
+                      <option [value]="1"> Active </option>
+                      <option [value]="0"> Inactive </option>
+                    </select>
+                    <label [hidden]="storeEdit"
+                      class="form-control form-control-alternative">{{store?.status == 1 ? 'Active' : 'Inactive'}}</label>
+                    <div *ngIf="f.active.touched && f.active.invalid" class="alert alert-danger">
+                      <div *ngIf="f.active.errors.required">Role is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group" [hidden]="!storeEdit">
+                    <button type="submit" type="submit" (click)="updateStore('', 'store')"
+                      [disabled]="updatestoreForm.invalid" class="btn btn-primary my-4">Update Store</button>
+                    <button type="submit" (click)="editStore(false)" class="btn btn-outline-danger my-4">Cancel</button>
+                  </div>
+                  <div class="form-group" [hidden]="storeEdit">
+                    <button type="submit" (click)="editStore(true)" class="btn btn-primary my-4">Edit Store</button>
+                    <button (click)="openDeleteStoreModal()" class="btn btn-outline-danger my-4">Delete Store</button>
                   </div>
                 </div>
               </div>
             </div>
           </form>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" role="dialog" id="storeDelete">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4>Delete Store!</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modalText">Are you sure you want to delete <strong>{{store?.name}}</strong>?</p>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button class="btn btn-outline-success" (click)="deleteStore()">Yes</button>
+        <button class="btn btn-outline-danger" (click)="closeModal()">No</button>
       </div>
     </div>
   </div>

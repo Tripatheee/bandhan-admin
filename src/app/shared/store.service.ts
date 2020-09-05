@@ -82,4 +82,66 @@ export class StoreService {
         }
       );
   }
+
+  deleteStore(storeID, storeName) {
+    this.commonService.showSpinner();
+    return this.httpWrapper.delete(apiResources.deleteStore.replace('storeID', storeID)).map(
+      (res: any) => {
+        this.commonService.hideSpinner();
+        if (res.success) {
+          this.toastr.success(`Product ${storeName} deleted`);
+          return res;
+        } else {
+          this.toastr.error(res.message);
+        }
+      }
+    ).toPromise()
+      .catch(
+        (err) => {
+          this.toastr.error(`Cannot delete product ${storeName}`)
+          console.log('error in delete store api ====>>>>', err);
+          this.commonService.hideSpinner();
+        }
+      );
+  }
+
+  getStore(storeID) {
+    this.commonService.showSpinner();
+    return this.httpWrapper.get(apiResources.getStore.replace('storeID', storeID)).map(
+      (res: any) => {
+        this.commonService.hideSpinner();
+        if (res.success) {
+          return res;
+        } else {
+          this.toastr.error(res.message);
+        }
+      }
+    ).toPromise()
+      .catch(
+        (err) => {
+          console.log('error in get store api ====>>>>', err);
+          this.commonService.hideSpinner();
+        }
+      );
+  }
+
+  updateStore(payload, storeID) {
+    this.commonService.showSpinner();
+    return this.httpWrapper.post(apiResources.updateStore.replace('storeID', storeID), payload).map(
+      (res: any) => {
+        this.commonService.hideSpinner();
+        if (res.success) {
+          return res;
+        } else {
+          this.toastr.error(res.message);
+        }
+      }
+    ).toPromise()
+      .catch(
+        (err) => {
+          console.log('error in updating store api ====>>>>', err);
+          this.commonService.hideSpinner();
+        }
+      );
+  }
 }

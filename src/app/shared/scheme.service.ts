@@ -55,10 +55,52 @@ export class SchemeService {
     ).toPromise()
     .catch(
       (err) => {
-        console.log("error in scheme fetch api =====>>", err);
+        console.log("error in schemes fetch api =====>>", err);
         this.toastr.error("Couldn't fetch schemes");
         this.commonService.hideSpinner();
       }
     );
+  }
+
+  deleteProduct(schemeID, schemeName) {
+    this.commonService.showSpinner();
+    return this.httpWrapper.delete(apiResources.deleteScheme.replace('schemeID', schemeID)).map(
+      (res: any) => {
+        this.commonService.hideSpinner();
+        if (res.success) {
+          this.toastr.success(`Scheme ${schemeName} deleted`);
+          return res;
+        } else {
+          this.toastr.error(res.message);
+        }
+      }
+    ).toPromise()
+      .catch(
+        (err) => {
+          this.toastr.error(`Cannot delete Scheme ${schemeName}`)
+          console.log('error in delete scheme api ====>>>>', err);
+          this.commonService.hideSpinner();
+        }
+      )
+  }
+
+  getSchemeDetails(schemeID) {
+    this.commonService.showSpinner();
+    return this.httpWrapper.get(apiResources.fetchScheme.replace('schemeID', schemeID)).map(
+      (res: any) => {
+        this.commonService.hideSpinner();
+        if (res.success) {
+          return res;
+        } else {
+          this.toastr.error(res.message);
+        }
+      }
+    ).toPromise()
+      .catch(
+        (err) => {
+          console.log('error in fetch scheme api ====>>>>', err);
+          this.commonService.hideSpinner();
+        }
+      );
   }
 }

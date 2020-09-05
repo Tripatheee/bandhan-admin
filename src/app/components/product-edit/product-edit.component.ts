@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/shared/product.service';
 import { CommonService } from 'src/app/shared/common.service';
 
+declare var $: any;
 @Component({
   selector: 'app-product-edit',
   templateUrl: './product-edit.component.html',
@@ -14,11 +15,12 @@ import { CommonService } from 'src/app/shared/common.service';
 export class ProductEditComponent implements OnInit {
   updateproductForm: FormGroup;
   productID: any;
-  editProduct: boolean;
+  productEdit: boolean;
   categoryList: any;
   formData: FormData = new FormData();
   imageUploaded: boolean;
   pdfUploaded: boolean;
+  product: any;
 
   constructor(
     public fb: FormBuilder,
@@ -32,15 +34,16 @@ export class ProductEditComponent implements OnInit {
       id: new FormControl(),
       name: new FormControl('', [Validators.required]),
       sku: new FormControl('', [Validators.required]),
+      details: new FormControl('', [Validators.required]),
       active: new FormControl('', [Validators.required]),
       categories_id: new FormControl('', [Validators.required]),
       promotional_video: new FormControl('', [Validators.required]),
-      image: new FormControl(''),
-      pdf: new FormControl('')
+      images: new FormControl(''),
+      product_pdf: new FormControl('')
     });
     this.activatedRoute.queryParams.subscribe(
       (params) => {
-        this.productID = params['product_id'];
+        this.productID = params['product'];
         console.log('product id ======>>>', this.productID);
       }
     )
@@ -50,7 +53,15 @@ export class ProductEditComponent implements OnInit {
   ngOnInit(): void {
     this.imageUploaded = true;
     this.pdfUploaded = true;
-    this.editProduct = false;
+    this.productEdit = false;
+    document.getElementById('input-productimage').addEventListener('change', (event: any) => {
+      console.log('event', event.target.files)
+      this.updateProduct(event.target.files, 'image');
+    });
+    this.getCategories();
+  }
+
+  getCategories() {
     this.commonService.getCategoriesList().then(
       (res) => {
         if (res) {
@@ -66,49 +77,66 @@ export class ProductEditComponent implements OnInit {
     this.productService.getProductDetails(this.productID).then(
       (res) => {
         if (res) {
-          this.updateproductForm.patchValue({
-            id: res.data.id,
-            name: res.data.name,
-            sku: res.data.sku,
-            active: res.data.active,
-            categories_id: res.data.categories_id,
-            promotional_video: res.data.promotional_video,
-            image: res.data.images,
-            pdf: res.data.product_pdf
-          });
-          this.updateproductForm.controls['categories_id'].disable();
-          this.updateproductForm.controls['active'].disable();
-          console.log('product details =====>>>>', res);
+          this.product = res.data;
+          let category = this.categoryList.find(category => { return category.id == this.product.categories_id });
+          if (category) {
+            this.product.categoryName = category.name;
+          }
+          console.log('product details =======>>>>>>', this.product);
         }
       }
     );
+  }
+
+  patchValueToForm() {
+    let formControls = this.updateproductForm.value;
+
+    Object.keys(formControls).forEach(
+      (key) => {
+        if (key !== 'images' && key !== 'product_pdf') {
+          formControls[key] = this.product[key]
+        }
+      }
+    );
+    this.updateproductForm.patchValue(formControls);
   }
 
   get f() {
     return this.updateproductForm.controls;
   }
 
-  async toggleViewEditProduct() {
-    this.editProduct = !this.editProduct;
-    if (this.editProduct) {
-      this.updateproductForm.controls['categories_id'].enable();
-      this.updateproductForm.controls['active'].enable();
+  async editProduct(boolValue: boolean) {
+    this.productEdit = boolValue;
+    if (this.productEdit) {
+      this.patchValueToForm();
     } else {
-      this.updateproductForm.controls['categories_id'].disable();
-      this.updateproductForm.controls['active'].disable();
+      this.updateproductForm.reset();
     }
   }
 
 
 
-  updateProduct() {
-    Object.keys(this.updateproductForm.value).forEach(
-      (key) => {
-        if (key !== 'image' && key !== 'pdf') {
-          this.formData.append(key, this.updateproductForm.value[key]);
+  updateProduct(files?: FileList, type?: string, ) {
+    if(type == 'image' && files.length) {
+      this.formData = new FormData();
+      this.patchValueToForm();
+      this.formData.set('images', files[0]);
+      Object.keys(this.updateproductForm.value).forEach(
+        (key) => {
+          if (key !== 'images' && key !== 'product_pdf') {
+            this.formData.set(key, this.updateproductForm.value[key]);
+          }
         }
-      }
-    );
+      );
+    } else {
+      Object.keys(this.updateproductForm.value).forEach(
+        (key) => {
+          if (key !== 'images' && key !== 'product_pdf') {
+            this.formData.set(key, this.updateproductForm.value[key]);
+          }
+        }
+      );
+    }
     this.formData.set('purchase_price', '123');
     this.formData.set('sale_price', '123');
     this.formData.set('details', 'datqweqwea');
@@ -117,7 +145,10 @@ export class ProductEditComponent implements OnInit {
     this.productService.updateProduct(this.formData, this.updateproductForm.value.id).then(
       (res) => {
         if (res) {
-          this.router.navigate(['list-products']);
+          // this.router.navigate(['list-products']);
+          this.productEdit = false;
+          this.formData = new FormData();
+          this.getCategories();
         }
       }
     );
@@ -129,19 +160,9 @@ export class ProductEditComponent implements OnInit {
 
     switch (type) {
       case 'pdf':
-        this.formData.append('product_pdf', files[0]);
+        this.formData = new FormData();
+        this.formData.set('product_pdf', files[0]);
         this.pdfUploaded = true;
-        break;
-
-      case 'image':
-        this.formData.append('images', files[0]);
-        this.imageUploaded = true;
-        // const file = files[0];
-
-        // const reader = new FileReader();
-        // reader.onload = e => this.imageSrc = reader.result;
-
-        // reader.readAsDataURL(file)
         break;
 
       default:
@@ -150,6 +171,29 @@ export class ProductEditComponent implements OnInit {
     console.log('file upload', files[0].type)
 
     console.log('form data ======>>>>', formData);
+  }
+
+  editImage(id) {
+    document.getElementById(id).click();
+  }
+
+  openDeleteProductModal() {
+    $('#product-Delete').modal("show");
+  }
+
+  deleteProduct() {
+    $('#product-Delete').modal("hide");
+    this.productService.deleteProduct(this.productID, this.product.name).then(
+      (res) => {
+        if (res) {
+          this.router.navigate(['list-products']);
+        }
+      }
+    )
+  }
+
+  closeModal() {
+    $('#product-Delete').modal("hide");
   }
 
 }

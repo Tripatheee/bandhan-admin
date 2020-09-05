@@ -16,7 +16,7 @@ export const ROUTES: RouteInfo[] = [
   { path: '/add-user', title: 'Create User', icon: 'ni-single-02 text-yellow', class: '', isHeader: false },
   
   { path: '/list-users', title: 'List Users', icon: 'ni-bullet-list-67 text-blue', class: '', isHeader: false },
-  { path: '/list-roles', title: 'List User Roles', icon: 'ni-key-25 text-info', class: '', isHeader: false },
+  // { path: '/list-roles', title: 'List User Roles', icon: 'ni-key-25 text-info', class: '', isHeader: false },
 
   { path: '', title: 'Store Management', icon: 'ni ni-shop text-orange', class: '', isHeader: true },
   { path: '/add-store', title: 'Create Store', icon: 'ni ni-shop', class: '', isHeader: false },

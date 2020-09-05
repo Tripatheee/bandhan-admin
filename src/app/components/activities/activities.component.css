@@ -97,3 +97,25 @@
      left: 25%;
      overflow: hidden;
  }
+
+ .txt-align-right {
+    text-align: right;
+}
+
+.delete-icon-only-btn {
+    background: transparent;
+      border-color: transparent;
+      color: red;
+  }
+  
+  .edit-icon-only-btn {
+    background: transparent;
+      border-color: transparent;
+      color: green;
+  }
+  
+  .view-icon-only-btn {
+    background: transparent;
+      border-color: transparent;
+      color: rgb(12, 201, 226);
+  }

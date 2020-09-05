@@ -267,12 +267,12 @@ export class DataService {
     } else {
       // server-side error
       msg = `Error Code: ${error.status}\nMessage: ${error.message}`;
-      this.toastr.error(error.error.message);
+      // this.toastr.error(error.error.message);
 
-      if (error.status == 401) {
-        this.toastr.error("Unauthenticated");
-        this.router.navigate(['login']);
-      }
+      // if (error.status == 401) {
+      //   this.toastr.error("Unauthenticated");
+      //   this.router.navigate(['login']);
+      // }
     }
     return throwError(msg);
   }

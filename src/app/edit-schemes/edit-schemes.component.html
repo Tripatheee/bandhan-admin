@@ -10,98 +10,250 @@
                 <div class="card-header bg-white border-0">
                     <div class="row align-items-center">
                         <div class="col-8">
-                            <h3 class="mb-0">Create Schemes</h3>
+                            <h3 class="mb-0">Scheme Details</h3>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
 
                     <form class="form-signin" [formGroup]="schemeForm">
-                        <!-- <h6 class="heading-small text-muted mb-4">User information</h6> -->
                         <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group image-wrap">
+                                        <label class="form-control-label" for="input-schemeimage">Scheme Image</label>
+                                        <input type="file" hidden id="input-schemeimage"
+                                            class="form-control form-control-alternative" placeholder="Name" required
+                                            accept="image/jpg, image/jpeg, image/png">
+                                        <div class="image-container">
+                                            <img [src]="schemeDetail?.scheme_image"
+                                                [hidden]="!schemeDetail?.scheme_image" class="img-rounded image"
+                                                alt="scheme Image">
+                                            <img [src]="'assets/img/brand/argon-white.png'"
+                                                [hidden]="schemeDetail?.scheme_image" class="img-rounded image"
+                                                alt="scheme Image">
+                                            <a (click)="editImage('input-schemeimage')"><i class="fas fa-edit"></i>
+                                                Change Image</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-username">Name</label>
-                                        <input type="text" id="input-username" formControlName="name" required
+                                        <input type="text" id="input-username" [hidden]="!schemeEdit"
+                                            formControlName="name" required
                                             class="form-control form-control-alternative" placeholder="Name">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="input-email">Description</label>
-                                        <input type="text" formControlName="description" id="input-email"
-                                            placeholder="Enter Description" required
-                                            class="form-control form-control-alternative">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="input-email">Default Points</label>
-                                        <input type="text" formControlName="default_points" id="input-email"
-                                            placeholder="Enter Points" required
-                                            class="form-control form-control-alternative">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="input-email">Bonus_Points</label>
-                                        <input type="text" formControlName="bonus_points" id="input-email"
-                                            placeholder="Enter Points" required
-                                            class="form-control form-control-alternative">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label " for="input-username">Bonus Start Date</label>
-                                        <input class="date" type="date" formControlName="bonus_start_date"
-                                            data-date-inline-picker="false" data-date-open-on-focus="true" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label " for="input-username">Bonus End Date</label>
-                                        <input class="date" type="date" formControlName="bonus_end_date"
-                                            data-date-inline-picker="false" data-date-open-on-focus="true" />
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label " for="input-username">Scheme End Date</label>
-                                        <input class="date" type="date" formControlName="scheme_end_date"
-                                            data-date-inline-picker="false" data-date-open-on-focus="true" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="input-email">Product Id</label>
-                                        <input type="text" formControlName="prod_id" id="input-email"
-                                            placeholder="Enter Description" required
-                                            class="form-control form-control-alternative">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="input-email">Product Volume</label>
-                                        <input type="text" formControlName="prod_volume" id="input-email"
-                                            placeholder="Enter Description" required
-                                            class="form-control form-control-alternative">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="input-email">Activity List Id</label>
-                                        <input type="text" formControlName="activity_id" id="input-email"
-                                            placeholder="Enter Description" required
-                                            class="form-control form-control-alternative">
+                                        <label [hidden]="schemeEdit"
+                                            class="form-control form-control-alternative">{{schemeDetail?.name}}</label>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <button (click)="updateScheme()" class="btn btn-primary my-4">Update
+                                        <label class="form-control-label" for="input-email">Description</label>
+                                        <input type="text" formControlName="description" [hidden]="!schemeEdit"
+                                            id="input-email" placeholder="Enter Description" required
+                                            class="form-control form-control-alternative">
+                                        <label [hidden]="schemeEdit"
+                                            class="form-control form-control-alternative">{{schemeDetail?.description}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-status">Scheme Category</label>
+                                        <select required placeholder="Select Scheme Category..." [hidden]="!schemeEdit"
+                                            formControlName="category" class="form-control form-control-alternative">
+                                            <option value="0" disabled selected> Select Scheme Category... </option>
+                                            <option *ngFor="let category of categoryList" [value]="category?.id">
+                                                {{category?.name}} </option>
+                                        </select>
+                                        <label [hidden]="schemeEdit"
+                                            class="form-control form-control-alternative">{{schemeDetail?.category}}</label>
+                                        <div *ngIf="f.category.touched &&  f.category.invalid"
+                                            class="alert alert-danger">
+                                            <div *ngIf="f.category.errors.required">Select Scheme Category</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-status">Scheme Group</label>
+                                        <select required placeholder="Select Scheme Group..." formControlName="group"
+                                            [hidden]="!schemeEdit" class="form-control form-control-alternative">
+                                            <option value="0" disabled selected> Select Scheme Group... </option>
+                                            <option *ngFor="let group of groupList" [value]="group?.id">
+                                                {{group?.name}} </option>
+                                        </select>
+                                        <label [hidden]="schemeEdit"
+                                            class="form-control form-control-alternative">{{schemeDetail?.group}}</label>
+                                        <div *ngIf="f.group.touched &&  f.group.invalid" class="alert alert-danger">
+                                            <div *ngIf="f.group.errors.required">Select Scheme group</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email">Product Volume</label>
+                                        <input type="text" formControlName="product_volume" id="input-email"
+                                            placeholder="Enter Description" required [hidden]="!schemeEdit"
+                                            class="form-control form-control-alternative">
+                                        <label [hidden]="schemeEdit"
+                                            class="form-control form-control-alternative">{{schemeDetail?.product_volume}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email">Target Points</label>
+                                        <input type="text" formControlName="default_points" id="input-email"
+                                            placeholder="Enter Points" required [hidden]="!schemeEdit"
+                                            class="form-control form-control-alternative">
+                                        <label [hidden]="schemeEdit"
+                                            class="form-control form-control-alternative">{{schemeDetail?.default_points}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email">Bonus Points</label>
+                                        <input type="text" formControlName="bonus_points" id="input-email"
+                                            placeholder="Enter Points" required [hidden]="!schemeEdit"
+                                            class="form-control form-control-alternative">
+                                        <label [hidden]="schemeEdit"
+                                            class="form-control form-control-alternative">{{schemeDetail?.bonus_points}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email">Scoring Points</label>
+                                        <input type="text" formControlName="scoring_point" id="input-email"
+                                            placeholder="Enter Points" required [hidden]="!schemeEdit"
+                                            class="form-control form-control-alternative">
+                                        <label [hidden]="schemeEdit"
+                                            class="form-control form-control-alternative">{{schemeDetail?.scoring_point}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" [hidden]="!schemeEdit">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label " for="input-username">Scheme Duration
+                                            Type</label>
+                                        <div>
+                                            <label class="duration-type"><input type="radio"
+                                                    formControlName="durationType" class="duration-radio" value="ad-hoc"
+                                                    name="durationType" checked>Ad-Hoc/Period</label>
+                                            <label class="duration-type"><input type="radio"
+                                                    formControlName="durationType" class="duration-radio" value="1"
+                                                    name="durationType" checked>Monthly</label>
+                                            <label class="duration-type"><input type="radio"
+                                                    formControlName="durationType" class="duration-radio" value="3"
+                                                    name="durationType">Quarterly</label>
+                                            <label class="duration-type"><input type="radio"
+                                                    formControlName="durationType" class="duration-radio" value="6"
+                                                    name="durationType">Half Yearly</label>
+                                            <label class="duration-type"><input type="radio"
+                                                    formControlName="durationType" class="duration-radio" value="12"
+                                                    name="durationType">Yearly</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label " for="input-username">Scheme Start
+                                            Date</label>
+                                        <input type="date" formControlName="bonus_start_date" id="input-date"
+                                            placeholder="Enter Bonus Start Date" [hidden]="!schemeEdit"
+                                            min="{{schemeStartMinDate |date: 'yyyy-MM-dd'}}" required
+                                            class="form-control form-control-alternative">
+                                        <label [hidden]="schemeEdit"
+                                            class="form-control form-control-alternative">{{schemeDetail?.bonus_start_date | date: "dd MMM yyyy"}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" [hidden]="(schemeForm?.value?.durationType && schemeForm?.value?.durationType !== 'ad-hoc')">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label " for="input-username">Scheme End
+                                            Date</label>
+                                        <input class="form-control form-control-alternative" type="date"
+                                            min="{{schemeEndMinDate |date: 'yyyy-MM-dd'}}" [hidden]="!schemeEdit"
+                                            formControlName="scheme_end_date" data-date-inline-picker="false"
+                                            data-date-open-on-focus="true" />
+                                        <label [hidden]="schemeEdit"
+                                            class="form-control form-control-alternative">{{schemeDetail?.scheme_end_date | date: "dd MMM yyyy"}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row"
+                                [hidden]="(!schemeDetail?.bonus_end_date) && ((!schemeForm?.value?.bonus_start_date) || (!schemeForm?.value?.scheme_end_date))">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label " for="input-username">Bonus End
+                                            Date</label>
+                                        <input class="form-control form-control-alternative" [hidden]="!schemeEdit"
+                                            min="{{bonusMinDate |date: 'yyyy-MM-dd'}}" type="date"
+                                            max="{{bonusMaxDate |date: 'yyyy-MM-dd'}}" type="date"
+                                            formControlName="bonus_end_date" data-date-inline-picker="false"
+                                            data-date-open-on-focus="true" />
+                                        <label  [hidden]="schemeEdit"
+                                            class="form-control form-control-alternative">{{schemeDetail?.bonus_end_date | date: "dd MMM yyyy"}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label " for="input-username">CheckList and Terms
+                                        </label>
+                                        <textarea class="form-control form-control-alternative" [hidden]="!schemeEdit"
+                                            formControlName="checklist_terms" rows="5"> </textarea>
+                                        <div [hidden]="schemeEdit" class="form-control form-control-alternative">
+                                            {{schemeDetail?.checklist_terms}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group" [hidden]="!schemeEdit">
+                                        <button class="btn btn-primary my-4">Update
+                                            Schemes</button>
+                                        <button class="btn btn-outline-danger my-4"
+                                            (click)="schemeEdit = false">Cancel</button>
+                                    </div>
+                                    <div class="form-group" [hidden]="schemeEdit">
+                                        <button class="btn btn-primary my-4" (click)="schemeEdit = true">Edit
+                                            Schemes</button>
+                                        <button class="btn btn-outline-danger my-4">Delete
                                             Schemes</button>
                                     </div>
                                 </div>

@@ -43,6 +43,25 @@ export class CommonService {
       );
   }
 
+  getInvoiceCategoryList() {
+    this.showSpinner();
+    return this.httpWrapper.get(apiResources.invoiceCategories).map(
+      (res) => {
+        this.hideSpinner();
+        if (res) {
+          return res;
+        }
+      }
+    ).toPromise()
+      .catch(
+        (err) => {
+          this.hideSpinner();
+          this.toastr.error('Cannot get invoice category list')
+          console.log('invoice category list api error =====>>', err)
+        }
+      );
+  }
+
 
 }
 

@@ -10,8 +10,8 @@
         <div class="card-header bg-white border-0">
           <div class="row align-items-center">
             <div class="col-8">
-              <h3 class="mb-0" [hidden]="!editProduct">Edit Product</h3>
-              <h3 class="mb-0" [hidden]="editProduct">Product Details</h3>
+              <h3 class="mb-0" [hidden]="!productEdit">Edit Product</h3>
+              <h3 class="mb-0" [hidden]="productEdit">Product Details</h3>
             </div>
             <!-- <div class="col-4 text-right">
               <a href="#!" class="btn btn-sm btn-primary">Settings</a>
@@ -25,15 +25,16 @@
 
               <div class="row">
                 <div class="col-lg-12">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-status">Product Category</label>
-                    <select required placeholder="Select Product Category..." formControlName="categories_id"
-                      class="form-control form-control-alternative">
-                      <option value="0" disabled selected> Select Product Category... </option>
-                      <option *ngFor="let category of categoryList" [value]="category?.id"> {{category?.name}} </option>
-                    </select>
-                    <div *ngIf="f.categories_id.touched &&  f.categories_id.invalid" class="alert alert-danger">
-                      <div *ngIf="f.categories_id.errors.required">Select Product Category</div>
+                  <div class="form-group image-wrap">
+                    <label class="form-control-label" for="input-productimage">Product Image</label>
+                    <input type="file" hidden id="input-productimage" class="form-control form-control-alternative"
+                      placeholder="Name" required  accept="image/jpg, image/jpeg, image/png">
+                    <div class="image-container">
+                      <img [src]="product?.images" [hidden]="!product?.images" class="img-rounded image"
+                        alt="Product Image">
+                      <img [src]="'assets/img/brand/argon-white.png'" [hidden]="product?.images"
+                        class="img-rounded image" alt="Product Image">
+                      <a (click)="editImage('input-productimage')"><i class="fas fa-edit"></i> Change Image</a>
                     </div>
                   </div>
                 </div>
@@ -43,8 +44,10 @@
                 <div class="col-lg-12">
                   <div class="form-group">
                     <label class="form-control-label" for="input-product-name">Product name</label>
-                    <input type="text" [readOnly]="!editProduct" id="input-product-name" required formControlName="name"
+                    <input type="text" [hidden]="!productEdit" id="input-product-name" required formControlName="name"
                       class="form-control form-control-alternative" placeholder="Product name">
+                    <label class="form-control form-control-alternative"
+                      [hidden]="productEdit">{{product?.name}}</label>
                     <div *ngIf="f.name.touched &&  f.name.invalid" class="alert alert-danger">
                       <div *ngIf="f.name.errors.required">Product name is required.</div>
                     </div>
@@ -55,9 +58,28 @@
               <div class="row">
                 <div class="col-lg-12">
                   <div class="form-group">
+                    <label class="form-control-label" for="input-status">Product Category</label>
+                    <select required placeholder="Select Product Category..." [hidden]="!productEdit"
+                      formControlName="categories_id" class="form-control form-control-alternative">
+                      <option value="0" disabled selected> Select Product Category... </option>
+                      <option *ngFor="let category of categoryList" [value]="category?.id"> {{category?.name}} </option>
+                    </select>
+                    <label class="form-control form-control-alternative"
+                      [hidden]="productEdit">{{product?.categoryName}}</label>
+                    <div *ngIf="f.categories_id.touched &&  f.categories_id.invalid" class="alert alert-danger">
+                      <div *ngIf="f.categories_id.errors.required">Select Product Category</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
                     <label class="form-control-label" for="input-product-code">Product code(SKU)</label>
-                    <input required [readOnly]="!editProduct" formControlName="sku" type="text" id="input-product-code"
-                      class="form-control form-control-alternative" placeholder="Enter product code">
+                    <input required [hidden]="!productEdit" formControlName="sku" type="text" id="input-product-code"
+                      class="form-control form-control-alternative" accept="application/pdf" placeholder="Enter product code">
+                    <label class="form-control form-control-alternative" [hidden]="productEdit">{{product?.sku}}</label>
                     <div *ngIf="f.sku.touched &&  f.sku.invalid" class="alert alert-danger">
                       <div *ngIf="f.sku.errors.required">Product code is required.</div>
                     </div>
@@ -68,25 +90,12 @@
               <div class="row">
                 <div class="col-lg-12">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-product-image">Product Image</label>
-                    <input type="file" [hidden]="!editProduct" id="input-product-image" required
-                      class="form-control form-control-alternative" accept="image/png, image/jpeg, image/jpg"
-                      (change)="onFileSelect('image',$event.target.files)" placeholder="Product image">
-                    <img [hidden]="editProduct" class="product-image" [alt]="updateproductForm?.value?.name"
-                      [src]="updateproductForm?.value?.image">
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="form-group">
                     <label class="form-control-label" for="input-product-image">Product Document</label>
-                    <input type="file" [hidden]="!editProduct" id="input-product-image" required
+                    <input type="file" [hidden]="!productEdit" id="input-product-image" required
                       class="form-control form-control-alternative" accept="application/pdf"
                       (change)="onFileSelect('pdf',$event.target.files)" placeholder="Product Document">
-                    <label [hidden]="editProduct" class="form-control form-control-alternative"><a
-                        [href]="updateproductForm?.value?.pdf" target="_blank">Click
+                    <label [hidden]="productEdit" class="form-control form-control-alternative"><a
+                        [href]="product?.product_pdf" target="_blank">Click
                         To open document</a></label>
                   </div>
                 </div>
@@ -96,11 +105,11 @@
                 <div class="col-lg-12">
                   <div class="form-group">
                     <label class="form-control-label" for="input-product-image">Promotional Video Link</label>
-                    <input type="text" [hidden]="!editProduct" id="input-product-image" required
+                    <input type="text" [hidden]="!productEdit" id="input-product-image" required
                       formControlName="promotional_video" class="form-control form-control-alternative"
                       placeholder="Promotional Video Link">
-                    <label [hidden]="editProduct" class="form-control form-control-alternative"><a
-                        [href]="updateproductForm?.value?.promotional_video" target="_blank">{{updateproductForm?.value?.promotional_video}}</a></label>
+                    <label [hidden]="productEdit" class="form-control form-control-alternative"><a
+                        [href]="product?.promotional_video" target="_blank">{{product?.promotional_video}}</a></label>
                     <div *ngIf="f.promotional_video.touched &&  f.promotional_video.invalid" class="alert alert-danger">
                       <div *ngIf="f.promotional_video.errors.required">Product Document is required.</div>
                     </div>
@@ -112,10 +121,13 @@
                 <div class="col-lg-12">
                   <div class="form-group">
                     <label class="form-control-label" for="input-status">Status</label>
-                    <select required formControlName="active" class="form-control form-control-alternative">
+                    <select required formControlName="active" [hidden]="!productEdit"
+                      class="form-control form-control-alternative">
                       <option [value]="1"> Active </option>
                       <option [value]="0"> Inactive </option>
                     </select>
+                    <label [hidden]="productEdit"
+                      class="form-control form-control-alternative">{{product?.active == 1 ? 'Active' : 'Inactive'}}</label>
                     <div *ngIf="f.active.touched &&  f.active.invalid" class="alert alert-danger">
                       <div *ngIf="f.active.errors.required">Select Status</div>
                     </div>
@@ -125,14 +137,16 @@
 
               <div class="row">
                 <div class="col-lg-12">
-                  <div class="form-group" [hidden]="!editProduct">
+                  <div class="form-group" [hidden]="!productEdit">
                     <button type="submit"
                       [disabled]="(updateproductForm?.invalid) || (!imageUploaded) || (!pdfUploaded)"
                       (click)="updateProduct()" class="btn btn-primary">Update Product</button>
-                    <button class="btn btn-danger" (click)="toggleViewEditProduct()">Cancel</button>
+                    <button class="btn btn-danger" (click)="editProduct(false)">Cancel</button>
                   </div>
-                  <div class="form-group" [hidden]="editProduct">
-                    <button class="btn btn-primary" (click)="toggleViewEditProduct()">Edit
+                  <div class="form-group" [hidden]="productEdit">
+                    <button class="btn btn-primary" (click)="editProduct(true)">Edit
+                      Product</button>
+                    <button class="btn btn-outline-danger" (click)="openDeleteProductModal()">Delete
                       Product</button>
                   </div>
                 </div>
@@ -140,6 +154,27 @@
             </div>
           </form>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" role="dialog" id="product-Delete">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4>Delete Product!</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modalText">Are you sure you want to delete <strong>{{product?.name}}</strong>?</p>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button class="btn btn-outline-success" (click)="deleteProduct()">Yes</button>
+        <button class="btn btn-outline-danger" (click)="closeModal()">No</button>
       </div>
     </div>
   </div>

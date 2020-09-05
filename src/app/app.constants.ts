@@ -1,7 +1,7 @@
 import { environment } from "src/environments/environment";
 
 export const apiResources = {
-    baseURL: environment.baseURL,
+    baseURL: "https://bandhan.herokuapp.com/api/v1",
     categoriesList: "/categories",
     createProduct: "/worker/products/create",
     productList: "/worker/products/all",
@@ -11,6 +11,13 @@ export const apiResources = {
     addStore: "/stores/store",
     storeManagerList: "/store-manager/fetch/all",
     storeList: "/stores/list",
+    getStore: "/stores/storeID/edit",
+    updateStore: "/stores/storeID/update",
+    deleteStore: "/stores/delete/storeID",
     createScheme: "/scheme/create",
-    schemeList: "/scheme/fetch"
+    schemeList: "/scheme/all",
+    deleteScheme: "/scheme/delete/schemeID",
+    fetchScheme: "/scheme/fetch/schemeID",
+    activitiesList: "/activity/all",
+    invoiceCategories: "/category/fetch"
 }

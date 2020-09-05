@@ -3,3 +3,11 @@
     box-shadow: 1px 5px ghostwhite !important;
     border-radius: 5px !important;
 }
+
+.duration-type {
+    margin: 15px;
+}
+
+.duration-radio {
+    margin-right: 5px;
+}

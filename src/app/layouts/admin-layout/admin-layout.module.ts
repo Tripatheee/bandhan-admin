@@ -26,6 +26,7 @@ import { StoreAddComponent } from '../../components/store-add/store-add.componen
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { StoresComponent } from 'src/app/components/stores/stores.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { StoresComponent } from 'src/app/components/stores/stores.component';
     NgbModule,
     ClipboardModule,
     NgxPaginationModule,
-    AngularMyDatePickerModule
+    AngularMyDatePickerModule,
+    NgxSpinnerModule
   ],
   declarations: [
     DashboardComponent,

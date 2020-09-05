@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from './../../shared/dataservice.service';
 import { ToastrService } from 'ngx-toastr';
+import { ActivitiesService } from 'src/app/shared/activities.service';
 
 declare var $: any;
 @Component({
@@ -15,41 +16,37 @@ export class ActivitiesComponent implements OnInit {
   pages: any = 1;
   limit: any;
   page: number;
+  itemPerPage: number;
+  totalActivities: number;
 
 
-  constructor(private dataService: DataService, private tostr: ToastrService) { }
+  constructor(
+    private activitiesService: ActivitiesService,
+    private tostr: ToastrService
+  ) { }
 
   ngOnInit(): void {
+    this.page = 1;
     this.getActivity();
   }
 
 
   pageChange(page) {
-    this.pages = page;
-  }
-  getActivity() {
-    this.tostr.info("Loading...", "", { progressBar: true, progressAnimation: 'increasing', timeOut: 1000 });
-    this.dataService.getActivity().subscribe(res => {
-      this.activity = res.data.data;
-      this.limit = res.data.meta.count;
-      this.page = 15;
-      console.log("this is the-=-=", this.activity)
-    })
+    this.page = page;
+    this.getActivity();
   }
 
-  onChange(changevalue, text) {
-    console.log("Selected item change value: ", changevalue, "this is activity id[-=", text);
-    this.openmodal = changevalue;
-    this.activity_Id = text;
-  }
-  closeModal() {
-    $('#sureModal').hide()
-  }
-  approve() {
-    this.dataService.updateActivity(this.openmodal, this.activity_Id).subscribe((res) => {
-      console.log('this is the activity -=-=-=-=', res);
+  getActivity() {
+    this.activitiesService.getActivities(this.page).then(res => {
       if (res) {
-        $('#sureModal').hide();
+        this.activity = res.data.data;
+        if (res.data.meta) {
+          this.limit = res.data.meta.count;
+          this.page = res.data.meta.current_page;
+          this.itemPerPage = res.data.meta.per_page;
+          this.totalActivities = res.data.meta.total;
+        }        
+        console.log("this is the-=-=", this.activity)
       }
     })
   }

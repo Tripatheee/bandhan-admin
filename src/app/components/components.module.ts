@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -11,6 +11,8 @@ import { ListSchemesComponent } from './list-schemes/list-schemes.component';
 /* import { RolesComponent } from './roles/roles.component';
 import { UsersComponent } from './users/users.component'; */
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { WorkerDetailsComponent } from './worker-details/worker-details.component';
 
 @NgModule({
   imports: [
@@ -19,14 +21,16 @@ import { NgxPaginationModule } from 'ngx-pagination';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    NgxSpinnerModule
   ],
   declarations: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
     CreateSchemesComponent,
-    ListSchemesComponent
+    ListSchemesComponent,
+    WorkerDetailsComponent
   ],
   exports: [
     FooterComponent,
