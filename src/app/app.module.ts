@@ -14,7 +14,6 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { ToastrModule } from 'ngx-toastr';
 import { EditSchemesComponent } from './edit-schemes/edit-schemes.component';
-import { UserdetailsComponent } from './userdetails/userdetails.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 @NgModule({
   imports: [
@@ -35,9 +34,6 @@ import { NgxSpinnerModule } from "ngx-spinner";
     AdminLayoutComponent,
     AuthLayoutComponent,
     EditSchemesComponent,
-    UserdetailsComponent,
-
-
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

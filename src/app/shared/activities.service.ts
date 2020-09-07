@@ -40,4 +40,46 @@ export class ActivitiesService {
         }
       );
   }
+
+  getActivityDetails(activityID: string) {
+    this.commonService.showSpinner();
+    return this.httpWrapper.get(apiResources.activityDetail.replace('activityID', activityID),).map(
+      (res) => {
+        this.commonService.hideSpinner()
+        if (res.success) {
+          return res;
+        } else {
+          this.toastr.error(res.message);
+        }
+      }
+    ).toPromise()
+      .catch(
+        (err) => {
+          console.log('error in activities detail api ====>>>', err);
+          this.commonService.hideSpinner();
+          this.toastr.error("Couldn't fetch activities detail");
+        }
+      );
+  }
+
+  approveActivity(payload) {
+    this.commonService.showSpinner();
+    return this.httpWrapper.post(apiResources.approveActivity, payload,).map(
+      (res: any) => {
+        this.commonService.hideSpinner()
+        if (res.success) {
+          return res;
+        } else {
+          this.toastr.error(res.message);
+        }
+      }
+    ).toPromise()
+      .catch(
+        (err) => {
+          console.log('error in activities approve api ====>>>', err);
+          this.commonService.hideSpinner();
+          this.toastr.error("Couldn't fetch activities approve");
+        }
+      );
+  } 
 }

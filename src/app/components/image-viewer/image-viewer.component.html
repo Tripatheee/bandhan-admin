@@ -1,0 +1,8 @@
+<!-- <img id="myImg" [src]="src" [alt]="alt" style="width:100%;max-width:100%"> -->
+
+<!-- The Modal -->
+<div id="imageViewer" style="display: block;" class="modal">
+  <span class="close" (click)="closeModal('imageViewer')">&times;</span>
+  <div id="caption">{{alt}}</div>
+  <img class="modal-content" [src]="src" id="img01">
+</div>

@@ -23,14 +23,12 @@
                                 <th scope="col">Customer Name</th>
                                 <th scope="col">Customer Mobile Number</th>
                                 <th scope="col">Invoice Number</th>
-                                <th scope="col">Product Id</th>
-                                <th scope="col">Product Name</th>
                                 <th scope="col">Store Id</th>
                                 <th scope="col">Store Name</th>
                                 <th scope="col">Total Bill Value</th>
                                 <th scope="col">Total Product Value</th>
                                 <th scope="col">View</th>
-                                <th scope="col">Delete</th>
+                                <!-- <th scope="col">Delete</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -57,12 +55,6 @@
                                     {{items?.invoice_no}}
                                 </td>
                                 <td>
-                                    {{items?.product?.id}}
-                                </td>
-                                <td>
-                                    {{items?.product?.name}}
-                                </td>
-                                <td>
                                     {{items?.store?.id}}
                                 </td>
                                 <td>
@@ -75,11 +67,11 @@
                                     {{items?.total_product_value}}
                                 </td>
                                 <td>
-                                    <button class="view-icon-only-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="view-icon-only-btn" (click)="viewActivity(items?.id)" [routerLink]="['/acitivty', items?.id]"><i class="fas fa-eye"></i></button>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <button class="delete-icon-only-btn"><i class="fas fa-trash"></i></button>
-                                </td>
+                                </td> -->
                             </tr>
 
                         </tbody>

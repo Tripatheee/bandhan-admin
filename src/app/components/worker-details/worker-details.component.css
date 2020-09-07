@@ -11,8 +11,8 @@
 }
 
 .image {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
 }
 
@@ -46,4 +46,32 @@ a {
     background-color: transparent;
     -webkit-text-decoration-skip: objects; */
     cursor: pointer;
+}
+
+.panel-heading {
+    margin-bottom: 7px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.identity-image {
+    width: 150px;
+    height: 150px;
+}
+
+.identity-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+img{
+    cursor: pointer;
+}
+
+.doc-details {
+    margin-left: 5px;
 }

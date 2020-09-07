@@ -2,11 +2,14 @@ import { Injectable } from '@angular/core';
 import { User } from './user';
 import { Observable, throwError, Subject, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from "ngx-spinner";
 import * as Rx from "rxjs";
+import { HttpWrapperService, HttpInputData } from './http/http-wrapper.service';
+import { CommonService } from './common.service';
+import { apiResources } from '../app.constants';
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +25,9 @@ export class DataService {
     private http: HttpClient,
     public router: Router,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private httpWrapper: HttpWrapperService,
+    private commonService: CommonService
   ) {
   }
 
@@ -275,6 +280,34 @@ export class DataService {
       // }
     }
     return throwError(msg);
+  }
+
+  giveRewardToWorker(payload) {
+    this.commonService.showSpinner();
+    let httpInput = new HttpInputData();
+    let httpParam = new HttpParams();
+    Object.keys(payload).forEach(
+      (key) => {
+        httpParam = httpParam.set(key, payload[key]);
+      }
+    );
+    httpInput.params = httpParam;
+    return this.httpWrapper.get(apiResources.rewardWorker, httpInput).map(
+      (res) => {
+        this.commonService.hideSpinner();
+        if (res) {
+          this.toastr.success('Worker Rewarded!');
+          return res;
+        }
+      }
+    ).toPromise()
+      .catch(
+        (err) => {
+          this.commonService.hideSpinner();
+          this.toastr.error("Cannot reward worker!")
+          console.log('invoice category list api error =====>>', err)
+        }
+      );
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from './../../shared/dataservice.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 
 declare var $;
 
@@ -47,10 +47,15 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  gotoDetails(id) {
-    console.log("this is the details page -=-=-=", id)
-    this.router.navigate(['/userdetails', id]);
-    console.log("this is the details page2 -=-=-=", id)
+  gotoDetails(user) {
+    console.log("this is the details page -=-=-=", user.id)
+    let extras: NavigationExtras = {
+      state: {
+        userType: user.user_role.name
+      }
+    }
+    this.router.navigate(['/userdetails', user.id], extras);
+    console.log("this is the details page2 -=-=-=", user.id)
   }
 
   showModal(id) {

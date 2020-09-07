@@ -13,7 +13,9 @@ import { UsersComponent } from './users/users.component'; */
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { WorkerDetailsComponent } from './worker-details/worker-details.component';
-
+import { UserdetailsComponent } from '../userdetails/userdetails.component';
+import { ImageViewerComponent } from './image-viewer/image-viewer.component';
+import { ActivityEditComponent } from './activity-edit/activity-edit.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -30,12 +32,16 @@ import { WorkerDetailsComponent } from './worker-details/worker-details.componen
     SidebarComponent,
     CreateSchemesComponent,
     ListSchemesComponent,
-    WorkerDetailsComponent
+    WorkerDetailsComponent,
+    UserdetailsComponent,
+    ImageViewerComponent,
+    ActivityEditComponent
   ],
   exports: [
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    ImageViewerComponent
   ]
 })
 export class ComponentsModule { }

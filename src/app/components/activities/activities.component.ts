@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from './../../shared/dataservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivitiesService } from 'src/app/shared/activities.service';
+import { Router } from '@angular/router';
 
 declare var $: any;
 @Component({
@@ -22,7 +23,8 @@ export class ActivitiesComponent implements OnInit {
 
   constructor(
     private activitiesService: ActivitiesService,
-    private tostr: ToastrService
+    private tostr: ToastrService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -49,6 +51,10 @@ export class ActivitiesComponent implements OnInit {
         console.log("this is the-=-=", this.activity)
       }
     })
+  }
+
+  viewActivity(activityID) {
+    this.router.navigate(['/activity', activityID]);
   }
 
 }

@@ -19,17 +19,21 @@ export class UserdetailsComponent implements OnInit {
   clubId: any;
   approveId: any;
   disapproveForm: any;
-
+  userRole: any
   constructor(public route: ActivatedRoute, private tostr: ToastrService, private fb: FormBuilder, private dataService: DataService, private router: Router) {
     this.route.params.subscribe(params => {
       this.user_id = params.id
       console.log("this is the user id -=-=-=-=-", this.user_id)
     });
+    if(this.router.getCurrentNavigation().extras.state)
+    this.userRole = this.router.getCurrentNavigation().extras.state;
+    else
+    router.navigate(['/list-users'])
+    console.log(this.userRole);
   }
 
   ngOnInit(): void {
     this.userDetails(this.user_id);
-    this.getStores();
 
     //*form start here */
     this.modalForm = this.fb.group({
@@ -49,6 +53,7 @@ export class UserdetailsComponent implements OnInit {
       console.log("this is the response of the=-=-=-= ", response);
       if (response) {
         this.userInfo = response;
+        this.getStores();
       }
     })
   }

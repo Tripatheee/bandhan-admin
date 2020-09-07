@@ -40,12 +40,12 @@ export const AdminLayoutRoutes: Routes = [
 
     { path: 'add-activity', component: ActivityAddComponent },
     { path: 'list-activities', component: ActivitiesComponent },
-    { path: 'edit-activity', component: ActivityEditComponent },
 
     { path: 'site-setting', component: SiteSettingComponent },
     { path: 'create-schemes', component: CreateSchemesComponent },
     { path: 'list-schemes', component: ListSchemesComponent },
     { path: 'edit-schemes', component: EditSchemesComponent },
-    { path: 'userdetails/:id', component: UserdetailsComponent }
+    { path: 'userdetails/:id', component: UserdetailsComponent },
+    { path: 'activity/:id', component: ActivityEditComponent }
 
 ];

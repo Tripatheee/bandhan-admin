@@ -1,1 +1,366 @@
-<p>worker-details works!</p>
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+    style="min-height: 70px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+    <!-- Mask -->
+    <span class="mask bg-gradient-danger opacity-8"></span>
+</div>
+<div class="container-fluid mt--4">
+    <div class="row">
+        <div class="col-xl-12 order-xl-1">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">User Details</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form class="form-signin">
+
+                        <div class="pl-lg-4">
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group image-wrap">
+                                        <label class="form-control-label" for="input-productimage">Profile Image</label>
+                                        <!-- <input type="file" hidden id="input-productimage"
+                                            class="form-control form-control-alternative" placeholder="Name" required
+                                            accept="image/jpg, image/jpeg, image/png"> -->
+                                        <div class="image-container">
+                                            <img (click)="openImagerViewer($event)"
+                                                [src]="workerDetail?.aditional_data?.user_image || 'assets/img/brand/argon-white.png'"
+                                                class="img-rounded image" alt="Profile Image">
+                                            <!-- <a><i class="fas fa-edit"></i> Change Image</a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <th>Name:</th>
+                                                <td>{{workerDetail?.data?.name}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Date Of Birth:</th>
+                                                <td>{{workerDetail?.data?.user_personal?.dob}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Gender:</th>
+                                                <td>{{workerDetail?.data?.user_personal?.gender}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Mobile Number:</th>
+                                                <td>{{workerDetail?.data?.mobile_no}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Email ID:</th>
+                                                <td>{{workerDetail?.data?.email}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Address</th>
+                                                <td>{{workerDetail?.data?.user_personal?.address}}</td>
+                                            </tr>
+                                            <tr *ngIf="workerDetail?.data?.status === 0">
+                                                <th>Disapproval Reason:</th>
+                                                <td>{{workerDetail?.data?.disapprove_message}}</td>
+                                            </tr>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <div class="panel-group" id="accordion">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading form-control"
+                                                    (click)="collapseAccordion('identity')">
+                                                    <h4 class="panel-title">Identity Proof
+                                                    </h4>
+                                                    <i id="identityIcon" class="fa fa-angle-down"></i>
+                                                </div>
+                                                <div id="identity" class="panel-collapse collapse in">
+                                                    <h4>Aadhar Card</h4>
+                                                    <div class="identity-container">
+                                                        <div>
+                                                            <label class="form-control-label">Name on Aadhar
+                                                                Card:</label>
+                                                            <label
+                                                                class="doc-details">{{workerDetail?.data?.user_documents?.aadhar_name}}</label><br>
+                                                            <label class="form-control-label">Aadhar Number:</label>
+                                                            <label>{{workerDetail?.data?.user_documents?.aadhar_no}}</label>
+                                                        </div>
+                                                        <img (click)="openImagerViewer($event)"
+                                                            class="img-thumbnail identity-image"
+                                                            [src]="workerDetail?.aditional_data?.aadhar_image"
+                                                            alt="Aadhar Card">
+                                                    </div>
+                                                    <hr>
+                                                    <h4>PAN Card</h4>
+                                                    <div class="identity-container">
+                                                        <div>
+                                                            <label class="form-control-label">Name on PAN Card:</label>
+                                                            <label>{{workerDetail?.data?.user_documents?.pan_name}}</label><br>
+                                                            <label class="form-control-label">PAN Number:</label>
+                                                            <label>{{workerDetail?.data?.user_documents?.pan_no}}</label>
+                                                        </div>
+                                                        <img (click)="openImagerViewer($event)"
+                                                            class="img-thumbnail identity-image"
+                                                            [src]="workerDetail?.aditional_data?.pan_image"
+                                                            alt="PAN Card">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading form-control"
+                                                (click)="collapseAccordion('bankDetail')">
+                                                <h4 class="panel-title">Bank Details
+                                                </h4>
+                                                <i id="bankDetailIcon" class="fa fa-angle-down"></i>
+                                            </div>
+                                            <div id="bankDetail" class="panel-collapse collapse">
+                                                <table class="table table-striped">
+                                                    <tr>
+                                                        <th>Account Holder Name:</th>
+                                                        <td>{{workerDetail?.data?.user_bank?.account_name}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Bank Name:</th>
+                                                        <td>{{workerDetail?.data?.user_bank?.bank_name}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Account Number:</th>
+                                                        <td>{{workerDetail?.data?.user_bank?.account_no}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>IFSC Code:</th>
+                                                        <td>{{workerDetail?.data?.user_bank?.ifsc_code}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Branch Address:</th>
+                                                        <td>{{workerDetail?.data?.user_bank?.branch_address}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <img (click)="openImagerViewer($event)"
+                                                                class="img-thumbnail identity-image"
+                                                                [src]="workerDetail?.aditional_data?.bank_document"
+                                                                alt="Bank Document">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading form-control"
+                                                (click)="collapseAccordion('points')">
+                                                <h4 class="panel-title">Points
+                                                </h4>
+                                                <i id="pointsIcon" class="fa fa-angle-down"></i>
+                                            </div>
+                                            <div id="points" class="panel-collapse collapse">
+                                                <table class="table table-striped">
+                                                    <tr>
+                                                        <th>Total Points:</th>
+                                                        <td>{{workerDetail?.user_points?.total_point || '0'}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Rewarded Points:</th>
+                                                        <td>{{workerDetail?.user_points?.reward_points || '0'}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Unrewarded Points:</th>
+                                                        <td>{{workerDetail?.user_points?.remaining_point || '0'}}</td>
+                                                    </tr>
+                                                    <tr *ngIf="workerDetail?.user_points?.remaining_point">
+                                                        <th></th>
+                                                        <td>
+                                                            <button  data-toggle="modal" data-target="#rewardWorker" class="btn btn-outline-primary">Reward</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- *ngIf="workerDetail?.data?.is_completed !=1" -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <button class="btn btn-outline-success" data-toggle="modal" *ngIf="workerDetail?.data?.is_completed !=1"
+                                        data-target="#myModal">Approve</button>
+                                    <button class="btn btn-outline-danger" *ngIf="workerDetail?.data?.status !=0"
+                                        data-toggle="modal" data-target="#myDisModal">Disapprove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" role="dialog" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form [formGroup]="modalForm">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="modal-title text-center">Approve Worker</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Club Name</label>
+                                <select class="form-control" formControlName="club"
+                                    (change)="clubEvent($event.target.value)">
+                                    <option value="">Select club</option>
+                                    <option value="0" selected>Gold</option>
+                                    <option value="1">Silver</option>
+                                    <option value="2">Bronze</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Store</label>
+                                <select class="form-control" formControlName="store"
+                                    (change)="storeEvent($event.target.value)">
+                                    <option value="">Select store</option>
+                                    <option placeholder="Select store" value="{{items?.id}}"
+                                        *ngFor="let items of stores">
+                                        {{items.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-outline-success" [disabled]="!modalForm.valid"
+                        (click)="confirmStatus()">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" role="dialog" id="rewardWorker">
+    <div class="modal-dialog">
+        <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="modal-title text-center">Reward Worker</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>Total Points:</th>
+                                        <td>{{workerDetail?.user_points?.total_point || '0'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Rewarded Points:</th>
+                                        <td>{{workerDetail?.user_points?.reward_points || '0'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Unrewarded Points:</th>
+                                        <td>{{workerDetail?.user_points?.remaining_point || '0'}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Rewarding Points:</label>
+                                <input type="text" class="form-control" [(ngModel)]="rewardPoint" placeholder="Rewarding Points">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Amount:</label>
+                                <input type="text" class="form-control" [(ngModel)]="amount" placeholder="Rewarding Points">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-outline-success" (click)="giveRewardToWorker()">Reward</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+<!-- The  Disapprove Modal -->
+<div class="modal fade" id="myDisModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" [formGroup]="disapproveForm">
+                <h4 class="modal-title">Please write reason for disapproval.</h4>
+                <div>
+                    <textarea formControlName="reason" class="form-control" rows="5"
+                        placeholder="Write comments....."></textarea>
+                </div>
+                <span class="text-danger"
+                    *ngIf="disapproveForm.get('reason').dirty || disapproveForm.get('reason').touched">
+                    <span *ngIf="disapproveForm.get('reason').hasError('required')">
+                        Please Enter reasons.
+                    </span>
+                </span>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button class="btn btn-danger" (click)="disapproveConfirm()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-image-viewer *ngIf="src" [src]="src || ''" [alt]="alt || ''" [style.display]="display"
+    (onDisplayNone)="onDisplayNone()"></app-image-viewer>

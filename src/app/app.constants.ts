@@ -19,5 +19,8 @@ export const apiResources = {
     deleteScheme: "/scheme/delete/schemeID",
     fetchScheme: "/scheme/fetch/schemeID",
     activitiesList: "/activity/all",
-    invoiceCategories: "/category/fetch"
+    activityDetail: "/activity/activityID",
+    invoiceCategories: "/category/fetch",
+    approveActivity: "/update/activity/status",
+    rewardWorker: "/worker/user/reward"
 }

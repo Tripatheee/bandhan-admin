@@ -18,7 +18,6 @@ import { StoreEditComponent } from '../../components/store-edit/store-edit.compo
 import { ProductsComponent } from '../../components/products/products.component';
 import { ProductEditComponent } from '../../components/product-edit/product-edit.component';
 import { ActivitiesComponent } from '../../components/activities/activities.component';
-import { ActivityEditComponent } from '../../components/activity-edit/activity-edit.component';
 import { SiteSettingComponent } from '../../components/site-setting/site-setting.component';
 import { ProductAddComponent } from '../../components/product-add/product-add.component';
 import { ActivityAddComponent } from '../../components/activity-add/activity-add.component';
@@ -27,6 +26,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { StoresComponent } from 'src/app/components/stores/stores.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ImageViewerComponent } from 'src/app/components/image-viewer/image-viewer.component';
 
 @NgModule({
   imports: [
@@ -55,7 +55,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ProductsComponent,
     ProductEditComponent,
     ActivitiesComponent,
-    ActivityEditComponent,
     SiteSettingComponent,
     ProductAddComponent,
     ActivityAddComponent
